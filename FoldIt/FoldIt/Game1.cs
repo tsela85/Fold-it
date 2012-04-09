@@ -65,6 +65,7 @@ namespace FoldIt
             //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
             
             board = new Board(Content.Load<Texture2D>(@"empty"),Content.Load<Texture2D>(@"edged"),
+                new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color),
                 graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
         }
