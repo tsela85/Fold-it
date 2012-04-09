@@ -1,0 +1,2 @@
+Content\edged.xnb
+Content\empty.xnb

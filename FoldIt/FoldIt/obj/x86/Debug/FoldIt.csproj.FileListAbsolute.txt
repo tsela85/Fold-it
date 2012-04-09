@@ -1,0 +1,8 @@
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\FoldIt.exe
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\FoldIt.pdb
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\obj\x86\Debug\FoldIt.exe
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\obj\x86\Debug\FoldIt.pdb
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\edged.xnb
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\empty.xnb

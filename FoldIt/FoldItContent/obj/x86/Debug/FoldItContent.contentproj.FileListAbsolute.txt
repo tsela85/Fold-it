@@ -1,0 +1,1 @@
+c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldItContent\obj\x86\Debug\ResolveAssemblyReference.cache
