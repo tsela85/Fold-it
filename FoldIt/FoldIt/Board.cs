@@ -52,10 +52,12 @@ namespace FoldIt
             Edge currentEdge = onEdge();
             ms = Mouse.GetState();
 
-            if (gamestate == GameState.chooseEdge1)
+
+            if ((gamestate == GameState.chooseEdge1) || ((gamestate == GameState.onEdge1)))
             {
                 if (currentEdge != Edge.None)
                 {
+
                     edge1.theEdge = currentEdge;
                     switch (currentEdge)
                     {
@@ -65,10 +67,32 @@ namespace FoldIt
                         case (Edge.Right): edge1.x = inX1-6; edge1.y = ms.Y; break;
                         default: edge1.x = ms.X; edge1.y = ms.Y; break;
                     }
-                    return GameState.onEdge1; //((ms.LeftButton == ButtonState.Pressed) ? GameState.onEdge1 : GameState.chooseEdge1);
+                    return ((ms.LeftButton != ButtonState.Pressed) ? GameState.onEdge1 : GameState.chooseEdge2);
                 }
-            } 
-            return GameState.chooseEdge1;
+                return GameState.chooseEdge1;
+            }
+
+            if ((gamestate == GameState.chooseEdge2) || ((gamestate == GameState.onEdge2)))
+            {
+                if ((currentEdge != Edge.None) && (currentEdge != edge1.theEdge))
+                {
+
+                    edge2.theEdge = currentEdge;
+                    switch (currentEdge)
+                    {
+                        case (Edge.Top): edge2.x = ms.X; edge2.y = inY - 3; break;
+                        case (Edge.Bottom): edge2.x = ms.X; edge2.y = inY1 - 6; break;
+                        case (Edge.Left): edge2.x = inX - 3; edge2.y = ms.Y; break;
+                        case (Edge.Right): edge2.x = inX1 - 6; edge2.y = ms.Y; break;
+                        default: edge1.x = ms.X; edge1.y = ms.Y; break;
+                    }
+                    return ((ms.LeftButton != ButtonState.Pressed) ? GameState.onEdge2 : GameState.folding);
+                }
+                return GameState.chooseEdge2;
+            }
+
+
+            return gamestate;
         }
 
         public void Draw(SpriteBatch spriteBatch,GameState gamestate)
@@ -77,6 +101,13 @@ namespace FoldIt
             spriteBatch.Draw(innerTex, new Rectangle(inX, inY, inX1 - inX, inY1 - inY), Color.Salmon);
             if (gamestate == GameState.onEdge1)
                 spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 8, 8), Color.Yellow);
+            if (gamestate == GameState.chooseEdge2)
+                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.SeaGreen);
+            if (gamestate == GameState.onEdge2)
+            {
+                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.SeaGreen);
+                spriteBatch.Draw(outerTex, new Rectangle(edge2.x, edge2.y, 9, 9), Color.Yellow);
+            }
 
         }
 
