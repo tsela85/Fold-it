@@ -101,12 +101,14 @@ namespace FoldIt
             
             #endregion
 
+            if ((gamestate == GameState.folding) && (ms.RightButton == ButtonState.Pressed))
+                return GameState.chooseEdge1;
             return gamestate;
         }
 
         public void Draw(SpriteBatch spriteBatch,GameState gamestate)
         {
-            spriteBatch.Draw(outerTex, new Rectangle(outX, outY, outW, outH), Color.OrangeRed);
+            spriteBatch.Draw(outerTex, new Rectangle(outX, outY, outW, outH), Color.Teal);
             spriteBatch.Draw(innerTex, new Rectangle(inX, inY, inX1 - inX, inY1 - inY), Color.Silver);
             if (gamestate == GameState.onEdge1)
                 spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.Yellow);
@@ -155,6 +157,13 @@ namespace FoldIt
                   SpriteEffects.None, 0);
         }
 
-
+        public Vector2 getEdge1Position()
+        {
+            return new Vector2(edge1.x, edge1.y);
+        }
+        public Vector2 getEdge2Position()
+        {
+            return new Vector2(edge2.x, edge2.y);
+        }
     }
 }

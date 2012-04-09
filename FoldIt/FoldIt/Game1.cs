@@ -24,6 +24,7 @@ namespace FoldIt
 
         Board board;
         GameState gamestate;
+        Ball ball;
 
         public Game1()
         {
@@ -67,6 +68,7 @@ namespace FoldIt
             board = new Board(Content.Load<Texture2D>(@"empty"),Content.Load<Texture2D>(@"edged"),
                 new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color),
                 graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            ball = new Ball(Content.Load<Texture2D>(@"ball"), 100, 100);
 
         }
 
@@ -91,6 +93,8 @@ namespace FoldIt
                 this.Exit();
 
             gamestate = board.Update(gamestate,gameTime);
+            if (gamestate == GameState.folding)
+                ball.flipBall(board.getEdge1Position(), board.getEdge2Position());
             base.Update(gameTime);
         }
 
@@ -103,6 +107,7 @@ namespace FoldIt
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             board.Draw(spriteBatch,gamestate);
+            ball.Draw(spriteBatch, gamestate);
             spriteBatch.End();
             base.Draw(gameTime);
         }
