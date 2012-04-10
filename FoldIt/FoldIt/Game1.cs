@@ -95,7 +95,7 @@ namespace FoldIt
             gamestate = board.Update(gamestate,gameTime);
             if (gamestate == GameState.prepreFolding)
             {
-                ball.calcBeforeFolding(board.getEdge1Position(), board.getEdge2Position());
+                ball.calcBeforeFolding(board.getEdge1(), board.getEdge2());
                 gamestate = GameState.folding;
             } 
             if (gamestate == GameState.folding)

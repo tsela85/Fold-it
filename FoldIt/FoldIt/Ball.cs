@@ -15,7 +15,7 @@ namespace FoldIt
         Rectangle board;
         Texture2D ballTex;
 
-        Vector2 perpenPos;
+        Vector2 center;
         float radius;
         float angleBetweenPoints;
         float foldingAngle;
@@ -35,18 +35,37 @@ namespace FoldIt
 
         }
 
-        public void calcBeforeFolding(Vector2 first,Vector2 second) 
+        public void calcBeforeFolding(EdgePosition first, EdgePosition second) 
         {
-            float m = (second.Y - first.Y) / (second.X - first.X);
-            float c = first.Y - first.X * m;
-            float m1 = -1 / m;
-            float c1 = ballRec.Y - ballRec.X * m1;
+            Vector2 foldLine;
+            Vector2 perpendicular;
 
-            perpenPos.X = -(c - c1) / (m - m1);
-            perpenPos.Y = m1 * perpenPos.X + c1;
+            foldLine.X = (float)((float)(second.y - (float)first.y) / ((float)second.x - (float)first.x));
+            perpendicular.X = -1 / foldLine.X;
 
-            angleBetweenPoints = (float)Math.Atan2(ballRec.Y - perpenPos.Y, ballRec.X - perpenPos.X);
-            radius = Vector2.Distance(new Vector2(ballRec.X, ballRec.Y), new Vector2(perpenPos.X, perpenPos.Y));
+            if (foldLine.X == 0) //fold line is horizontal
+            {
+                center.X = ballRec.X;
+                center.Y = first.y;
+            }
+            else
+            {
+                if (perpendicular.X == 0) //fold line is vertical
+                {
+                    center.X = first.x;
+                    center.Y = ballRec.Y;
+                }
+                else
+                {
+                    foldLine.Y = (float)((float)first.y - (float)first.x * foldLine.X);
+                    perpendicular.Y = ballRec.Y - ballRec.X * perpendicular.X;
+
+                    center.X = -(foldLine.Y - perpendicular.Y) / (foldLine.X - perpendicular.X);
+                    center.Y = perpendicular.X * center.X + perpendicular.Y;
+                }
+            }
+            angleBetweenPoints = (float)Math.Atan2(ballRec.Y - center.Y, ballRec.X - center.X);
+            radius = Vector2.Distance(new Vector2(ballRec.X, ballRec.Y), new Vector2(center.X, center.Y));
         }
 
         public GameState flipBall(GameTime gameTime)
@@ -56,8 +75,8 @@ namespace FoldIt
                 timePassed+=(float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (timePassed > 0.02f)
                 {
-                    ballAfterFolding.X = (int)(radius * Math.Cos(angleBetweenPoints + foldingAngle) + perpenPos.X);
-                    ballAfterFolding.Y = (int)(radius * Math.Sin(angleBetweenPoints + foldingAngle) + perpenPos.Y);
+                    ballAfterFolding.X = (int)(radius * Math.Cos(angleBetweenPoints + foldingAngle) + center.X);
+                    ballAfterFolding.Y = (int)(radius * Math.Sin(angleBetweenPoints + foldingAngle) + center.Y);
                     foldingAngle += 0.1f;
                     timePassed = 0;
                 }
@@ -85,6 +104,17 @@ namespace FoldIt
         {
             spriteBatch.Draw(ballTex, new Rectangle(ballAfterFolding.X ,ballAfterFolding.Y, 10, 10), null, Color.Gold, 0, new Vector2(ballSize / 2, ballSize / 2), SpriteEffects.None, 0);
         }
+
+                // enables to draw a line
+        //void DrawLine(SpriteBatch spriteBatch, float width, Color color, Vector2 point1, Vector2 point2)
+        //{
+        //    float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
+        //    float length = Vector2.Distance(point1, point2);
+
+        //    spriteBatch.Draw(blankTex, point1, null, color,
+        //          angle, Vector2.Zero, new Vector2(length, width),
+        //          SpriteEffects.None, 0);
+        //}
 
     }
 }

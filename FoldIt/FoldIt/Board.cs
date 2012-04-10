@@ -126,7 +126,7 @@ namespace FoldIt
                 spriteBatch.Draw(outerTex, new Rectangle(edge2.x, edge2.y, 9, 9), Color.Yellow);
                 DrawLine(spriteBatch,2,Color.Blue,new Vector2(edge1.x+4,edge1.y+4), new Vector2(edge2.x+4,edge2.y+4));
             }
-            if (gamestate == GameState.prepreFolding)
+            if (gamestate == GameState.folding)
             {
                 spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.Orange);
                 spriteBatch.Draw(outerTex, new Rectangle(edge2.x, edge2.y, 9, 9), Color.Orange);
@@ -150,12 +150,12 @@ namespace FoldIt
         }
         
         // enables to draw a line
-        void DrawLine(SpriteBatch batch, float width, Color color, Vector2 point1, Vector2 point2)
+        void DrawLine(SpriteBatch spriteBatch, float width, Color color, Vector2 point1, Vector2 point2)
         {
             float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
             float length = Vector2.Distance(point1, point2);
 
-            batch.Draw(blankTex, point1, null, color,
+            spriteBatch.Draw(blankTex, point1, null, color,
                   angle, Vector2.Zero, new Vector2(length, width),
                   SpriteEffects.None, 0);
         }
@@ -168,6 +168,16 @@ namespace FoldIt
         public Vector2 getEdge2Position()
         {
             return new Vector2(edge2.x, edge2.y);
+        }
+
+        public EdgePosition getEdge1()
+        {
+            return edge1;
+        }
+
+        public EdgePosition getEdge2()
+        {
+            return edge2;
         }
 
         public Rectangle getInnerRec()
