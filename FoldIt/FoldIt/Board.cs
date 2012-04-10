@@ -94,15 +94,18 @@ namespace FoldIt
                         case (Edge.Right): edge2.x = inX1 - 6; edge2.y = ms.Y; break;
                         default: edge1.x = ms.X; edge1.y = ms.Y; break;
                     }
-                    return ((ms.LeftButton != ButtonState.Pressed) ? GameState.onEdge2 : GameState.folding);
+                    return ((ms.LeftButton != ButtonState.Pressed) ? GameState.onEdge2 : GameState.prepreFolding);
                 }
                 return GameState.chooseEdge2;
             }
             
             #endregion
 
-            if ((gamestate == GameState.folding) && (ms.RightButton == ButtonState.Pressed))
+            //if ((gamestate == GameState.folding) && (ms.RightButton == ButtonState.Pressed))
+            //    return GameState.chooseEdge1;
+            if ((gamestate == GameState.ballMoved) && (ms.LeftButton == ButtonState.Released))
                 return GameState.chooseEdge1;
+
             return gamestate;
         }
 
@@ -114,19 +117,19 @@ namespace FoldIt
                 spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.Yellow);
             if (gamestate == GameState.chooseEdge2)
             {
-                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.SeaGreen);
+                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.Orange);
                 DrawLine(spriteBatch,1,Color.Red,new Vector2(edge1.x+4,edge1.y+4), new Vector2(ms.X,ms.Y));     
             }
             if (gamestate == GameState.onEdge2)
             {
-                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.SeaGreen);
+                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.Orange);
                 spriteBatch.Draw(outerTex, new Rectangle(edge2.x, edge2.y, 9, 9), Color.Yellow);
                 DrawLine(spriteBatch,2,Color.Blue,new Vector2(edge1.x+4,edge1.y+4), new Vector2(edge2.x+4,edge2.y+4));
             }
-            if (gamestate == GameState.folding)
+            if (gamestate == GameState.prepreFolding)
             {
-                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.SeaGreen);
-                spriteBatch.Draw(outerTex, new Rectangle(edge2.x, edge2.y, 9, 9), Color.SeaGreen);
+                spriteBatch.Draw(outerTex, new Rectangle(edge1.x, edge1.y, 9, 9), Color.Orange);
+                spriteBatch.Draw(outerTex, new Rectangle(edge2.x, edge2.y, 9, 9), Color.Orange);
                 DrawLine(spriteBatch, 2, Color.DarkBlue, new Vector2(edge1.x + 4, edge1.y + 4), new Vector2(edge2.x + 4, edge2.y + 4));
             }
 
@@ -161,9 +164,15 @@ namespace FoldIt
         {
             return new Vector2(edge1.x, edge1.y);
         }
+
         public Vector2 getEdge2Position()
         {
             return new Vector2(edge2.x, edge2.y);
+        }
+
+        public Rectangle getInnerRec()
+        {
+            return new Rectangle(inX, inY, inX1 - inX, inY1 - inY);
         }
     }
 }

@@ -11,56 +11,79 @@ namespace FoldIt
     {
         public const int ballSize = 10;
 
-        //int x;
-        //int y;
         Rectangle ballRec;
+        Rectangle board;
         Texture2D ballTex;
 
-        float centerX, centerY;
-        float tempX, tempY;
+        Vector2 perpenPos;
+        float radius;
+        float angleBetweenPoints;
+        float foldingAngle;
+        Point ballAfterFolding;
 
-        public Ball(Texture2D tex, int posX, int posY)
+        float timePassed;
+        
+
+        public  Ball(Texture2D tex, int posX, int posY,Rectangle innerBoard)
         {
             ballRec = new Rectangle(posX, posY, ballSize, ballSize);
             ballTex = tex;
+            board = innerBoard;
 
-            centerX = centerX = 0;
-            tempX = tempY = 0;
+            foldingAngle = 0;
+            timePassed = 0;
+
         }
 
-        public void flipBall(Vector2 first,Vector2 second)
+        public void calcBeforeFolding(Vector2 first,Vector2 second) 
         {
-
-            float x1 = first.X;
-            float y1 = first.Y;
-            float x2 = second.X;
-            float y2 = second.Y;
-
-            float m = (y2 - y1) / (x2 - x1);
-            float c = y1 - x1*m;
+            float m = (second.Y - first.Y) / (second.X - first.X);
+            float c = first.Y - first.X * m;
             float m1 = -1 / m;
             float c1 = ballRec.Y - ballRec.X * m1;
 
-            float radius = Vector2.Distance(new Vector2(ballRec.X, ballRec.Y), new Vector2(centerX, centerY));
+            perpenPos.X = -(c - c1) / (m - m1);
+            perpenPos.Y = m1 * perpenPos.X + c1;
 
-            centerX = - (c - c1) / (m - m1);
-            centerY = m1 * centerX + c1;
-
-
-            float angle = MathHelper.Pi;
-
-            float deltaX = (float)(Math.Cos(angle) * ballRec.X - Math.Sin(angle) * ballRec.Y);
-            float deltaY = (float)(Math.Cos(angle) * ballRec.Y + Math.Sin(angle) * ballRec.X);
-
-            tempX = centerX + deltaX;
-            tempX = centerY + deltaY;
+            angleBetweenPoints = (float)Math.Atan2(ballRec.Y - perpenPos.Y, ballRec.X - perpenPos.X);
+            radius = Vector2.Distance(new Vector2(ballRec.X, ballRec.Y), new Vector2(perpenPos.X, perpenPos.Y));
         }
 
+        public GameState flipBall(GameTime gameTime)
+        {
+            if (foldingAngle < MathHelper.Pi)
+            {
+                timePassed+=(float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (timePassed > 0.02f)
+                {
+                    ballAfterFolding.X = (int)(radius * Math.Cos(angleBetweenPoints + foldingAngle) + perpenPos.X);
+                    ballAfterFolding.Y = (int)(radius * Math.Sin(angleBetweenPoints + foldingAngle) + perpenPos.Y);
+                    foldingAngle += 0.1f;
+                    timePassed = 0;
+                }
+                return GameState.folding;
+            } else 
+            {
+                if (board.Contains(ballAfterFolding))
+                {
+                    ballRec.X = ballAfterFolding.X;
+                    ballRec.Y = ballAfterFolding.Y;
+                }
+                foldingAngle = 0;
+                return GameState.ballMoved;
+            }
+
+        }
+
+    
         public void Draw(SpriteBatch spriteBatch, GameState gamestate)
         {
             spriteBatch.Draw(ballTex, ballRec,null, Color.Blue,0,new Vector2(ballSize/2,ballSize/2),SpriteEffects.None,0);
-            spriteBatch.Draw(ballTex, new Rectangle((int)centerX,(int)centerY,30,30), null, Color.Blue, 0, new Vector2(ballSize / 2, ballSize / 2), SpriteEffects.None, 0);
-            spriteBatch.Draw(ballTex, new Rectangle((int)tempX, (int)tempY, 30, 30), null, Color.DarkRed, 0, new Vector2(ballSize / 2, ballSize / 2), SpriteEffects.None, 0);
+        }
+
+        public void DrawFolding(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(ballTex, new Rectangle(ballAfterFolding.X ,ballAfterFolding.Y, 10, 10), null, Color.Gold, 0, new Vector2(ballSize / 2, ballSize / 2), SpriteEffects.None, 0);
         }
 
     }

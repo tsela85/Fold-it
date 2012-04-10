@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace FoldIt
 {
-    enum GameState {chooseEdge1,onEdge1, chooseEdge2,onEdge2, folding };
+    enum GameState {chooseEdge1,onEdge1, chooseEdge2,onEdge2,prepreFolding, folding , ballMoved};
    
     /// <summary>
     /// This is the main type for your game
@@ -68,7 +68,7 @@ namespace FoldIt
             board = new Board(Content.Load<Texture2D>(@"empty"),Content.Load<Texture2D>(@"edged"),
                 new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color),
                 graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-            ball = new Ball(Content.Load<Texture2D>(@"ball"), 100, 100);
+            ball = new Ball(Content.Load<Texture2D>(@"ball"), 300, 300,board.getInnerRec());
 
         }
 
@@ -93,8 +93,13 @@ namespace FoldIt
                 this.Exit();
 
             gamestate = board.Update(gamestate,gameTime);
+            if (gamestate == GameState.prepreFolding)
+            {
+                ball.calcBeforeFolding(board.getEdge1Position(), board.getEdge2Position());
+                gamestate = GameState.folding;
+            } 
             if (gamestate == GameState.folding)
-                ball.flipBall(board.getEdge1Position(), board.getEdge2Position());
+                gamestate = ball.flipBall(gameTime);
             base.Update(gameTime);
         }
 
@@ -107,7 +112,10 @@ namespace FoldIt
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             board.Draw(spriteBatch,gamestate);
-            ball.Draw(spriteBatch, gamestate);
+            if (gamestate == GameState.folding)
+                ball.DrawFolding(spriteBatch);
+            else
+                ball.Draw(spriteBatch, gamestate);
             spriteBatch.End();
             base.Draw(gameTime);
         }
