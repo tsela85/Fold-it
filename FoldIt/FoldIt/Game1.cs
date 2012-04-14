@@ -104,7 +104,7 @@ namespace FoldIt
             
             if (level == 1)
             {
-             //   gamestate = GameState.scored;
+              //  gamestate = GameState.scored;
                 if (Keyboard.GetState().IsKeyDown(Keys.R))
                 {
                     folds = 0;
@@ -141,8 +141,8 @@ namespace FoldIt
                 {
                     folds = 0;
                     gamestate = GameState.chooseEdge1;
-                    ball.initializeBall(300, 100);
-                    ball2.initializeBall(400, 100);
+                    ball.initializeBall(200, 100);
+                    ball2.initializeBall(300, 100);
 
                     goal.initializeGoal(1000, 350);
                     goal2.initializeGoal(1000, 450);
@@ -209,11 +209,13 @@ namespace FoldIt
                 }
             }
             spriteBatch.DrawString(font, "Fold the page, till the ink-stain is in the hole", new Vector2(50, 15), Color.Black);
-            spriteBatch.DrawString(font, "Click on the page edges to fold it", new Vector2(graphics.PreferredBackBufferWidth / 2 - 150, graphics.PreferredBackBufferHeight - 50), Color.Black);
+            spriteBatch.DrawString(font, "Mouse Left Button - choose, Mouse Right Button - cancel", new Vector2(50, graphics.PreferredBackBufferHeight - 50), Color.Black);
             spriteBatch.DrawString(font, "folds: " + folds, new Vector2(graphics.PreferredBackBufferWidth - 150, 15), Color.Black);
             spriteBatch.DrawString(font, "level: " + level, new Vector2(graphics.PreferredBackBufferWidth - 150, graphics.PreferredBackBufferHeight - 50), Color.Black);
             spriteBatch.DrawString(font,"press R to restart level", new Vector2(50,150), Color.Black
                     ,(MathHelper.Pi/2)+ 0.02f, new Vector2(0,0), 1, SpriteEffects.None, 0);
+            spriteBatch.DrawString(font,"Click on the page edges to fold it" , new Vector2(1185, 100), Color.Black
+                    , (MathHelper.Pi / 2), new Vector2(0, 0), 1, SpriteEffects.None, 0);
             if (gamestate == GameState.scored)
             {
                 string output = "    WINNER!! \n only " + folds + " folds";
