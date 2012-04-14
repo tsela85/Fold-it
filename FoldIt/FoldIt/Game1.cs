@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace FoldIt
 {
-    enum GameState {chooseEdge1,onEdge1, chooseEdge2,onEdge2,prepreFolding, folding , ballMoved};
+    enum GameState {chooseEdge1,onEdge1, chooseEdge2,onEdge2,prepreFolding, folding , ballMoved, scored};
    
     /// <summary>
     /// This is the main type for your game
@@ -25,6 +25,7 @@ namespace FoldIt
         Board board;
         GameState gamestate;
         Ball ball;
+        Goal goal;
 
         public Game1()
         {
@@ -68,7 +69,8 @@ namespace FoldIt
             board = new Board(Content.Load<Texture2D>(@"empty"),Content.Load<Texture2D>(@"edged"),
                 new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color),
                 graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-            ball = new Ball(Content.Load<Texture2D>(@"ball"), 300, 300,board.getInnerRec());
+            ball = new Ball(Content.Load<Texture2D>(@"ball"), new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color), 100, 100, board.getInnerRec());
+            goal = new Goal(Content.Load<Texture2D>(@"goal"), 900, 130, 20);
 
         }
 
@@ -100,6 +102,8 @@ namespace FoldIt
             } 
             if (gamestate == GameState.folding)
                 gamestate = ball.flipBall(gameTime);
+            if ((gamestate == GameState.ballMoved) && goal.isGoal(ball.getRec()))
+                gamestate = GameState.scored;
             base.Update(gameTime);
         }
 
@@ -112,8 +116,9 @@ namespace FoldIt
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             board.Draw(spriteBatch,gamestate);
+            goal.Draw(spriteBatch);
             if (gamestate == GameState.folding)
-                ball.DrawFolding(spriteBatch);
+                ball.DrawFolding(spriteBatch,board.getEdge1(),board.getEdge2());
             else
                 ball.Draw(spriteBatch, gamestate);
             spriteBatch.End();

@@ -28,16 +28,25 @@
       <Output>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\ball.xnb</Output>
       <Time>2012-04-09T15:54:11.8314087+03:00</Time>
     </Item>
+    <Item>
+      <Source>goal.png</Source>
+      <Name>goal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\goal.xnb</Output>
+      <Time>2012-04-14T11:33:22.2894599+03:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldItContent\</RootDirectory>
-      <LoggerRootDirectory>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\</LoggerRootDirectory>
-      <IntermediateDirectory>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldItContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldItContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldItContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
