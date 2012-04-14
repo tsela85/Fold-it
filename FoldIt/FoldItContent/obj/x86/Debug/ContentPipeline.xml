@@ -37,6 +37,24 @@
       <Output>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\goal.xnb</Output>
       <Time>2012-04-14T11:33:22.2894599+03:00</Time>
     </Item>
+    <Item>
+      <Source>font.spritefont</Source>
+      <Name>font</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\font.xnb</Output>
+      <Time>2012-04-14T14:53:17.643087+03:00</Time>
+    </Item>
+    <Item>
+      <Source>scoreFont.spritefont</Source>
+      <Name>scoreFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\scoreFont.xnb</Output>
+      <Time>2012-04-14T15:00:54.6476244+03:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

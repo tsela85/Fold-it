@@ -8,3 +8,5 @@ c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\
 c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\empty.xnb
 c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\ball.xnb
 C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\goal.xnb
+C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\font.xnb
+C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\scoreFont.xnb

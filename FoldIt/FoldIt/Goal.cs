@@ -29,5 +29,11 @@ namespace FoldIt
         {
             spriteBatch.Draw(goalTex, goalRec, null, Color.LightSeaGreen , 0, new Vector2(goalRec.Width / 2, goalRec.Height / 2), SpriteEffects.None, 0);
         }
+
+        public void initializeGoal(int posX, int posY)
+        {
+            goalRec.X = posX;
+            goalRec.Y = posY;
+        }
     }
 }

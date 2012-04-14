@@ -269,6 +269,13 @@ namespace FoldIt
             return ballRec;
         }
 
+        public void initializeBall(int posX, int posY) {
+            ballRec.X = posX;
+            ballRec.Y = posY;
 
+            foldingAngle = 0;
+            timePassed = 0;
+
+        }
     }
 }

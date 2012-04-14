@@ -22,10 +22,14 @@ namespace FoldIt
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        SpriteFont font,scoreFont;
         Board board;
         GameState gamestate;
-        Ball ball;
-        Goal goal;
+        Ball ball,ball2;
+        Goal goal,goal2;
+
+        int level;
+        int folds;
 
         public Game1()
         {
@@ -52,6 +56,8 @@ namespace FoldIt
 
             gamestate = GameState.chooseEdge1;
             this.IsMouseVisible = true;
+            folds = 0;
+            level = 1;
             base.Initialize();
         }
 
@@ -63,15 +69,17 @@ namespace FoldIt
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
+            font = Content.Load<SpriteFont>(@"font");
+            scoreFont = Content.Load<SpriteFont>(@"scoreFont");
             
             board = new Board(Content.Load<Texture2D>(@"empty"),Content.Load<Texture2D>(@"edged"),
                 new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color),
                 graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             ball = new Ball(Content.Load<Texture2D>(@"ball"), new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color), 100, 100, board.getInnerRec());
-            goal = new Goal(Content.Load<Texture2D>(@"goal"), 900, 130, 20);
+            goal = new Goal(Content.Load<Texture2D>(@"goal"), 1000, 180, 20);
 
+            ball2 = new Ball(Content.Load<Texture2D>(@"ball"), new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color), 100, 100, board.getInnerRec());
+            goal2 = new Goal(Content.Load<Texture2D>(@"goal"), 1000, 180, 20);
         }
 
         /// <summary>
@@ -93,17 +101,59 @@ namespace FoldIt
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            gamestate = board.Update(gamestate,gameTime);
-            if (gamestate == GameState.prepreFolding)
+            
+            if (level == 1)
             {
-                ball.calcBeforeFolding(board.getEdge1(), board.getEdge2());
-                gamestate = GameState.folding;
-            } 
-            if (gamestate == GameState.folding)
-                gamestate = ball.flipBall(gameTime);
-            if ((gamestate == GameState.ballMoved) && goal.isGoal(ball.getRec()))
                 gamestate = GameState.scored;
+                if ((gamestate == GameState.scored) && (Mouse.GetState().LeftButton == ButtonState.Pressed))
+                {
+                    folds = 0;
+                    ball.initializeBall(300, 100);
+                    ball2.initializeBall(400, 100);
+
+                    goal.initializeGoal(1000, 350);
+                    goal2.initializeGoal(1000, 450);
+                    level = 2;
+                    gamestate = GameState.chooseEdge1;
+                }
+                gamestate = board.Update(gamestate, gameTime);
+                if (gamestate == GameState.prepreFolding)
+                {
+                    ball.calcBeforeFolding(board.getEdge1(), board.getEdge2());
+                    gamestate = GameState.folding;
+                    folds++;
+                }
+                if (gamestate == GameState.folding)
+                    gamestate = ball.flipBall(gameTime);
+                if ((gamestate == GameState.ballMoved) && goal.isGoal(ball.getRec()))
+                    gamestate = GameState.scored;
+            }
+            else
+            {
+                if ((gamestate == GameState.scored) && (Mouse.GetState().LeftButton == ButtonState.Pressed))
+                {
+                    folds = 0;
+                    ball.initializeBall(100, 200);
+                    goal.initializeGoal(1000, 180);
+                    level = 1;
+                    gamestate = GameState.chooseEdge1;
+                }
+                gamestate = board.Update(gamestate, gameTime);
+                if (gamestate == GameState.prepreFolding)
+                {
+                    ball.calcBeforeFolding(board.getEdge1(), board.getEdge2());
+                    ball2.calcBeforeFolding(board.getEdge1(), board.getEdge2());
+                    gamestate = GameState.folding;
+                    folds++;
+                }
+                if (gamestate == GameState.folding)
+                {
+                    ball2.flipBall(gameTime);
+                    gamestate = ball.flipBall(gameTime);
+                }
+                if ((gamestate == GameState.ballMoved) && goal.isGoal(ball.getRec()) && goal2.isGoal(ball2.getRec()))
+                    gamestate = GameState.scored;
+            }
             base.Update(gameTime);
         }
 
@@ -116,11 +166,41 @@ namespace FoldIt
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             board.Draw(spriteBatch,gamestate);
-            goal.Draw(spriteBatch);
-            if (gamestate == GameState.folding)
-                ball.DrawFolding(spriteBatch,board.getEdge1(),board.getEdge2());
+            if (level == 1)
+            {
+                goal.Draw(spriteBatch);
+                if (gamestate == GameState.folding)
+                    ball.DrawFolding(spriteBatch, board.getEdge1(), board.getEdge2());
+                else
+                    ball.Draw(spriteBatch, gamestate);
+            } // level 2
             else
-                ball.Draw(spriteBatch, gamestate);
+            {
+                goal.Draw(spriteBatch);
+                goal2.Draw(spriteBatch);
+                if (gamestate == GameState.folding)
+                {
+                    ball.DrawFolding(spriteBatch, board.getEdge1(), board.getEdge2());
+                    ball2.DrawFolding(spriteBatch, board.getEdge1(), board.getEdge2());
+                }
+                else
+                {
+                    ball.Draw(spriteBatch, gamestate);
+                    ball2.Draw(spriteBatch, gamestate);
+
+                }
+            }
+            spriteBatch.DrawString(font, "Fold the page, till the ink-stain is in the hole", new Vector2(50, 15), Color.Black);
+            spriteBatch.DrawString(font, "Click on the page edges to fold it", new Vector2(graphics.PreferredBackBufferWidth / 2 - 150, graphics.PreferredBackBufferHeight - 50), Color.Black);
+            spriteBatch.DrawString(font, "folds: " + folds, new Vector2(graphics.PreferredBackBufferWidth - 150, 15), Color.Black);
+            spriteBatch.DrawString(font, "level: " + level, new Vector2(graphics.PreferredBackBufferWidth - 150, graphics.PreferredBackBufferHeight - 50), Color.Black);
+            if (gamestate == GameState.scored)
+            {
+                string output = "    WINNER!! \n only " + folds + " folds";
+                Vector2 FontOrigin = scoreFont.MeasureString(output) / 2;
+                spriteBatch.DrawString(scoreFont, output, new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), Color.Black
+                    , 0, FontOrigin, 1.0f, SpriteEffects.None, 0);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
