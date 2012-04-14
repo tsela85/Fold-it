@@ -104,7 +104,14 @@ namespace FoldIt
             
             if (level == 1)
             {
-                gamestate = GameState.scored;
+             //   gamestate = GameState.scored;
+                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                {
+                    folds = 0;
+                    gamestate = GameState.chooseEdge1;
+                    ball.initializeBall(100, 100);
+                    goal.initializeGoal(1000, 180);
+                }
                 if ((gamestate == GameState.scored) && (Mouse.GetState().LeftButton == ButtonState.Pressed))
                 {
                     folds = 0;
@@ -130,10 +137,20 @@ namespace FoldIt
             }
             else
             {
+                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                {
+                    folds = 0;
+                    gamestate = GameState.chooseEdge1;
+                    ball.initializeBall(300, 100);
+                    ball2.initializeBall(400, 100);
+
+                    goal.initializeGoal(1000, 350);
+                    goal2.initializeGoal(1000, 450);
+                }
                 if ((gamestate == GameState.scored) && (Mouse.GetState().LeftButton == ButtonState.Pressed))
                 {
                     folds = 0;
-                    ball.initializeBall(100, 200);
+                    ball.initializeBall(100, 100);
                     goal.initializeGoal(1000, 180);
                     level = 1;
                     gamestate = GameState.chooseEdge1;
@@ -151,7 +168,8 @@ namespace FoldIt
                     ball2.flipBall(gameTime);
                     gamestate = ball.flipBall(gameTime);
                 }
-                if ((gamestate == GameState.ballMoved) && goal.isGoal(ball.getRec()) && goal2.isGoal(ball2.getRec()))
+                if ((gamestate == GameState.ballMoved) && (goal.isGoal(ball.getRec()) || goal2.isGoal(ball.getRec()))  
+                        && (goal.isGoal(ball2.getRec()) || goal2.isGoal(ball2.getRec())))
                     gamestate = GameState.scored;
             }
             base.Update(gameTime);
@@ -194,6 +212,8 @@ namespace FoldIt
             spriteBatch.DrawString(font, "Click on the page edges to fold it", new Vector2(graphics.PreferredBackBufferWidth / 2 - 150, graphics.PreferredBackBufferHeight - 50), Color.Black);
             spriteBatch.DrawString(font, "folds: " + folds, new Vector2(graphics.PreferredBackBufferWidth - 150, 15), Color.Black);
             spriteBatch.DrawString(font, "level: " + level, new Vector2(graphics.PreferredBackBufferWidth - 150, graphics.PreferredBackBufferHeight - 50), Color.Black);
+            spriteBatch.DrawString(font,"press R to restart level", new Vector2(50,150), Color.Black
+                    ,(MathHelper.Pi/2)+ 0.02f, new Vector2(0,0), 1, SpriteEffects.None, 0);
             if (gamestate == GameState.scored)
             {
                 string output = "    WINNER!! \n only " + folds + " folds";
