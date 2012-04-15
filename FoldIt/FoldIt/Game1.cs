@@ -101,10 +101,11 @@ namespace FoldIt
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            
+
+            #region Level 1
             if (level == 1)
             {
-              //  gamestate = GameState.scored;
+                  gamestate = GameState.scored;
                 if (Keyboard.GetState().IsKeyDown(Keys.R))
                 {
                     folds = 0;
@@ -134,44 +135,93 @@ namespace FoldIt
                     gamestate = ball.flipBall(gameTime);
                 if ((gamestate == GameState.ballMoved) && goal.isGoal(ball.getRec()))
                     gamestate = GameState.scored;
-            }
+            } 
+            #endregion
             else
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.R))
+                #region Level 2
+                if (level == 2)
                 {
-                    folds = 0;
-                    gamestate = GameState.chooseEdge1;
-                    ball.initializeBall(200, 100);
-                    ball2.initializeBall(300, 100);
-
-                    goal.initializeGoal(1000, 350);
-                    goal2.initializeGoal(1000, 450);
-                }
-                if ((gamestate == GameState.scored) && (Mouse.GetState().LeftButton == ButtonState.Pressed))
-                {
-                    folds = 0;
-                    ball.initializeBall(100, 100);
-                    goal.initializeGoal(1000, 180);
-                    level = 1;
-                    gamestate = GameState.chooseEdge1;
-                }
-                gamestate = board.Update(gamestate, gameTime);
-                if (gamestate == GameState.prepreFolding)
-                {
-                    ball.calcBeforeFolding(board.getEdge1(), board.getEdge2());
-                    ball2.calcBeforeFolding(board.getEdge1(), board.getEdge2());
-                    gamestate = GameState.folding;
-                    folds++;
-                }
-                if (gamestate == GameState.folding)
-                {
-                    ball2.flipBall(gameTime);
-                    gamestate = ball.flipBall(gameTime);
-                }
-                if ((gamestate == GameState.ballMoved) && (goal.isGoal(ball.getRec()) || goal2.isGoal(ball.getRec()))  
-                        && (goal.isGoal(ball2.getRec()) || goal2.isGoal(ball2.getRec())))
                     gamestate = GameState.scored;
-            }
+                    if (Keyboard.GetState().IsKeyDown(Keys.R))
+                    {
+                        folds = 0;
+                        gamestate = GameState.chooseEdge1;
+                        ball.initializeBall(350, 200);
+                        ball2.initializeBall(900, 200);
+
+                        goal.initializeGoal(400, 400);
+                        goal2.initializeGoal(950, 400);
+                    }
+                    if ((gamestate == GameState.scored) && (Mouse.GetState().LeftButton == ButtonState.Pressed))
+                    {
+                        folds = 0;
+                        ball.initializeBall(200, 200);
+                        ball2.initializeBall(1000, 200);
+
+                        goal.initializeGoal(300, 400);
+                        goal2.initializeGoal(900, 400);
+                        level = 3;
+                        gamestate = GameState.chooseEdge1;
+                    }
+                    gamestate = board.Update(gamestate, gameTime);
+                    if (gamestate == GameState.prepreFolding)
+                    {
+                        ball.calcBeforeFolding(board.getEdge1(), board.getEdge2());
+                        ball2.calcBeforeFolding(board.getEdge1(), board.getEdge2());
+                        gamestate = GameState.folding;
+                        folds++;
+                    }
+                    if (gamestate == GameState.folding)
+                    {
+                        ball2.flipBall(gameTime);
+                        gamestate = ball.flipBall(gameTime);
+                    }
+                    if ((gamestate == GameState.ballMoved) && (goal.isGoal(ball.getRec()) || goal2.isGoal(ball.getRec()))
+                            && (goal.isGoal(ball2.getRec()) || goal2.isGoal(ball2.getRec())))
+                        gamestate = GameState.scored;
+                }
+                #endregion
+                else
+                    #region Level 3
+                    if (level == 3)
+                    {
+
+                        if (Keyboard.GetState().IsKeyDown(Keys.R))
+                        {
+                            folds = 0;
+                            gamestate = GameState.chooseEdge1;
+                            ball.initializeBall(350, 200);
+                            ball2.initializeBall(900, 200);
+
+                            goal.initializeGoal(400, 400);
+                            goal2.initializeGoal(950, 400);
+                        }
+                        if ((gamestate == GameState.scored) && (Mouse.GetState().LeftButton == ButtonState.Pressed))
+                        {
+                            folds = 0;
+                            ball.initializeBall(100, 100);
+                            goal.initializeGoal(1000, 180);
+                            level = 1;
+                            gamestate = GameState.chooseEdge1;
+                        }
+                        gamestate = board.Update(gamestate, gameTime);
+                        if (gamestate == GameState.prepreFolding)
+                        {
+                            ball.calcBeforeFolding(board.getEdge1(), board.getEdge2());
+                            ball2.calcBeforeFolding(board.getEdge1(), board.getEdge2());
+                            gamestate = GameState.folding;
+                            folds++;
+                        }
+                        if (gamestate == GameState.folding)
+                        {
+                            ball2.flipBall(gameTime);
+                            gamestate = ball.flipBall(gameTime);
+                        }
+                        if ((gamestate == GameState.ballMoved) && (goal.isGoal(ball.getRec()) || goal2.isGoal(ball.getRec()))
+                                && (goal.isGoal(ball2.getRec()) || goal2.isGoal(ball2.getRec())))
+                            gamestate = GameState.scored;
+                    } 
+                    #endregion
             base.Update(gameTime);
         }
 
@@ -191,7 +241,7 @@ namespace FoldIt
                     ball.DrawFolding(spriteBatch, board.getEdge1(), board.getEdge2());
                 else
                     ball.Draw(spriteBatch, gamestate);
-            } // level 2
+            } // level 2 or 3
             else
             {
                 goal.Draw(spriteBatch);

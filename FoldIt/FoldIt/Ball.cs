@@ -20,6 +20,7 @@ namespace FoldIt
         Vector2 perpendicular;
         float foldingAngle;
 
+
         float timePassed;
 
         // relevent to ball
@@ -48,7 +49,7 @@ namespace FoldIt
         //float angleBetweenRB;
         //Vector2 AfterFoldingRB;
 
-
+        //float cornerAngle;
         
 
         public  Ball(Texture2D tex,Texture2D blank, int posX, int posY,Rectangle innerBoard)
@@ -125,7 +126,7 @@ namespace FoldIt
 
         //    centerRT.X = -(foldLine.Y - perpendicular.Y) / (foldLine.X - perpendicular.X);
         //    centerRT.Y = perpendicular.X * centerRT.X + perpendicular.Y;
-        //    angleBetweenRT = (float)Math.Atan2(board.Y - centerRT.Y,board.Right - centerRT.X);
+        //    angleBetweenRT = (float)Math.Atan2(board.Y - centerRT.Y, board.Right - centerRT.X);
         //    radiusRT = Vector2.Distance(new Vector2(board.X, board.Y), new Vector2(centerRT.X, centerRT.Y));
         //}
 
@@ -141,25 +142,29 @@ namespace FoldIt
 
         public GameState flipBall(GameTime gameTime)
         {
+            
+
             if (foldingAngle < MathHelper.Pi)
             {
                 timePassed+=(float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (timePassed > 0.02f)
                 {
+
                     ballAfterFolding.X = (int)(radius * Math.Cos(angleBetweenPoints + foldingAngle) + center.X);
                     ballAfterFolding.Y = (int)(radius * Math.Sin(angleBetweenPoints + foldingAngle) + center.Y);
+                    //cornerAngle = ((foldingAngle <= (MathHelper.Pi / 2)) ? (foldingAngle) : (MathHelper.Pi / 2) - (foldingAngle -                           (MathHelper.Pi / 2)));
                     //// Left Top
-                    //AfterFoldingLT.X = (int)(radiusLT * Math.Cos(angleBetweenLT + foldingAngle) + centerLT.X);
-                    //AfterFoldingLT.Y = (int)(radiusLT * Math.Sin(angleBetweenLT + foldingAngle) + centerLT.Y);
+                    //AfterFoldingLT.X = (int)(radiusLT * Math.Cos(angleBetweenLT + cornerAngle) + centerLT.X);
+                    //AfterFoldingLT.Y = (int)(radiusLT * Math.Sin(angleBetweenLT + cornerAngle) + centerLT.Y);
                     //// Left Bottom
-                    //AfterFoldingLB.X = (int)(radiusLB * Math.Cos(angleBetweenLB + foldingAngle) + centerLB.X);
-                    //AfterFoldingLB.Y = (int)(radiusLB * Math.Sin(angleBetweenLB + foldingAngle) + centerLB.Y);
+                    //AfterFoldingLB.X = (int)(radiusLB * Math.Cos(angleBetweenLB + cornerAngle) + centerLB.X);
+                    //AfterFoldingLB.Y = (int)(radiusLB * Math.Sin(angleBetweenLB + cornerAngle) + centerLB.Y);
                     //// Right Top
-                    //AfterFoldingRT.X = (int)(radiusRT * Math.Cos(angleBetweenRT + foldingAngle) + centerRT.X);
-                    //AfterFoldingRT.Y = (int)(radiusRT * Math.Sin(angleBetweenRT + foldingAngle) + centerRT.Y);
+                    //AfterFoldingRT.X = (int)(radiusRT * Math.Cos(angleBetweenRT + cornerAngle) + centerRT.X);
+                    //AfterFoldingRT.Y = (int)(radiusRT * Math.Sin(angleBetweenRT + cornerAngle) + centerRT.Y);
                     //// Right Buttom
-                    //AfterFoldingRB.X = (int)(radiusRB * Math.Cos(angleBetweenRB + foldingAngle) + centerRB.X);
-                    //AfterFoldingRB.Y = (int)(radiusRB * Math.Sin(angleBetweenRB + foldingAngle) + centerRB.Y);
+                    //AfterFoldingRB.X = (int)(radiusRB * Math.Cos(angleBetweenRB + cornerAngle) + centerRB.X);
+                    //AfterFoldingRB.Y = (int)(radiusRB * Math.Sin(angleBetweenRB + cornerAngle) + centerRB.Y);
 
                     foldingAngle += 0.05f;
                     timePassed = 0;
@@ -186,9 +191,21 @@ namespace FoldIt
 
         public void DrawFolding(SpriteBatch spriteBatch, EdgePosition first, EdgePosition second)
         {
-            spriteBatch.Draw(ballTex, new Rectangle(ballAfterFolding.X, ballAfterFolding.Y, (int)(10 + 10 * Math.Sin(foldingAngle)), (int)(10 + 10 * Math.Sin(foldingAngle))), null, Color.Gold, 0, new Vector2(ballSize / 2, ballSize / 2), SpriteEffects.None, 0);
+            spriteBatch.Draw(ballTex, new Rectangle(ballAfterFolding.X, ballAfterFolding.Y,(int)(10 + 10 * Math.Sin(foldingAngle)), (int)(10 + 10 * Math.Sin(foldingAngle))), null, Color.Gold, 0, new Vector2(ballSize / 2, ballSize / 2), SpriteEffects.None, 0);
 
             #region flipping the page
+            //if ((first.theEdge == Edge.Top) && (second.theEdge == Edge.Left))
+            //{
+            //    DrawLine(spriteBatch, 3, Color.Black, AfterFoldingLT, new Vector2(first.x + 4, first.y + 4));
+            //    DrawLine(spriteBatch, 3, Color.Black, AfterFoldingLT, new Vector2(second.x + 4, second.y + 4));
+
+            //    DrawLine(spriteBatch, 3, Color.Black, new Vector2(first.x + 4, first.y + 4), AfterFoldingRT);
+            //    DrawLine(spriteBatch, 3, Color.Black, AfterFoldingRT, AfterFoldingRB);
+            //    DrawLine(spriteBatch, 3, Color.Black, AfterFoldingRB, AfterFoldingLB);
+            //    DrawLine(spriteBatch, 3, Color.Black, AfterFoldingLB, new Vector2(second.x + 4, second.y + 4));
+                 
+            //}
+
             //// top -> left / left -> top
             //if (((first.theEdge == Edge.Top) && (second.theEdge == Edge.Left) && ((ballRec.X - ballAfterFolding.X) < 0))
             //    || ((second.theEdge == Edge.Top) && (first.theEdge == Edge.Left) && ((ballRec.X - ballAfterFolding.X) < 0)))

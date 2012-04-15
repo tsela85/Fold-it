@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\edged.xnb</Output>
+      <Output>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\edged.xnb</Output>
       <Time>2012-04-09T11:42:33.6990321+03:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\empty.xnb</Output>
+      <Output>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\empty.xnb</Output>
       <Time>2012-04-09T11:42:33.7146322+03:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>c:\users\tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\ball.xnb</Output>
+      <Output>C:\Users\Tom\documents\visual studio 2010\Projects\FoldIt\FoldIt\FoldIt\bin\x86\Debug\Content\ball.xnb</Output>
       <Time>2012-04-09T15:54:11.8314087+03:00</Time>
     </Item>
     <Item>
